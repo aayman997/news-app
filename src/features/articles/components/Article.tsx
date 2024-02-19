@@ -1,4 +1,4 @@
-import ArticleType from "../../../types/Article.ts";
+import type ArticleType from "../../../types/Article.d.ts";
 import dateFormatter from "../../../utils/dateFormatter.ts";
 
 interface ArticleProps {

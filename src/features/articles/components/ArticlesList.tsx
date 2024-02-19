@@ -1,6 +1,6 @@
 import Article from "./Article.tsx";
-import ArticleType from "../../../types/Article.ts";
-import PaginationType from "../../../types/Pagination.ts";
+import type ArticleType from "../../../types/Article.d.ts";
+import type PaginationType from "../../../types/Pagination.d.ts";
 import Pagination from "../../../components/Pagination.tsx";
 
 interface ArticlesListProps {

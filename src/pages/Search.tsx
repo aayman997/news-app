@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import PaginationType from "../types/Pagination.ts";
-import ArticleType from "../types/Article.ts";
+import type PaginationType from "../types/Pagination.d.ts";
+import type ArticleType from "../types/Article.d.ts";
 import SearchHeader from "../components/SearchHeader.tsx";
 import SearchFilter from "../components/SearchFilter.tsx";
 import Loader from "../components/Loader.tsx";

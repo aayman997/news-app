@@ -1,5 +1,5 @@
-import ArticleType from "./Article.ts";
-import PaginationType from "./Pagination.ts";
+import ArticleType from "./Article.d.ts";
+import PaginationType from "./Pagination.d.ts";
 
 export default interface ArticlesResType {
 	articles: Partial<ArticleType>[];

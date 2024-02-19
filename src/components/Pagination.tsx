@@ -1,4 +1,4 @@
-import PaginationType from "../types/Pagination.ts";
+import type PaginationType from "../types/Pagination.d.ts";
 import ReactJSPagination from "react-js-pagination";
 import { useSearchParams } from "react-router-dom";
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight, AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
