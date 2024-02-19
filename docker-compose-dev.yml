@@ -9,8 +9,8 @@ services:
       - '3000:3000'
     volumes:
       - ./src:/app/news-app/src
-#    stdin_open: true
-#    tty: true
+    #    stdin_open: true
+    #    tty: true
     environment:
       - CHOKIDAR_USEPOLLING=true
     env_file:

@@ -1,5 +1,20 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./components/layout/Layout.tsx";
+import Home from "./pages/Home.tsx";
+import PageNotFound from "./pages/PageNotFound.tsx";
+
 function App() {
-  return <h1 className="text-3xl font-bold">My news app</h1>;
+	return (
+		<BrowserRouter>
+			<Routes>
+				<Route path="/" element={<Layout />}>
+					<Route index element={<Home />} />
+				</Route>
+
+				<Route path="*" element={<PageNotFound />} />
+			</Routes>
+		</BrowserRouter>
+	);
 }
 
 export default App;
