@@ -5,7 +5,7 @@ interface ArticlesRes extends ArticlesResType {
 	orderBy?: string;
 }
 
-const constructURLWithParams = (BASE_URL: string, API_KEY: string, query?: string, page?: string, orderBy?: string, orderDate?: string) => {
+const constructURLWithParams = (BASE_URL: string, API_KEY: string, query?: string, page?: string, orderBy?: string, orderDate?: string, section?: string[]) => {
 	const RESULTS_PER_PAGE = "15";
 	const params: Record<string, string> = {
 		"api-key": API_KEY,
@@ -15,18 +15,31 @@ const constructURLWithParams = (BASE_URL: string, API_KEY: string, query?: strin
 		...(page && { page }),
 		...(orderBy && { "order-by": orderBy }),
 		...(orderDate && { "order-date": orderDate }),
+		...(section && { section: section.join("|") }),
 	};
 	const searchParams = new URLSearchParams(params);
 	return BASE_URL + "search?" + searchParams;
 };
 
-const apiTheGuardian = async (query?: string, page?: string, orderBy?: string, orderDate?: string): Promise<ArticlesRes> => {
+type ParamsData = {
+	query?: string;
+	page?: string;
+	orderBy?: string;
+	orderDate?: string;
+	section?: string[];
+};
+
+const apiTheGuardian = async (paramsData: ParamsData): Promise<ArticlesRes> => {
+	const { orderDate, query, page, section } = paramsData;
+	let { orderBy } = paramsData;
+
 	if (query && orderBy === "newest") {
 		orderBy = "relevance";
 	}
+
 	const BASE_URL = import.meta.env.VITE_THEGUARDIAN_URL;
 	const API_KEY = import.meta.env.VITE_THEGUARDIAN_API_KEY;
-	const url = constructURLWithParams(BASE_URL, API_KEY, query, page, orderBy, orderDate);
+	const url = constructURLWithParams(BASE_URL, API_KEY, query, page, orderBy, orderDate, section);
 	const res = await fetch(url);
 	if (!res.ok) {
 		throw new Error("Error Loading data");
