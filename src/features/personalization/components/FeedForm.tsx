@@ -53,8 +53,6 @@ const FeedForm = ({ onCloseModal }: FeedFormProps) => {
 						})}
 						defaultValue={personalizedFeed?.username}
 						type="text"
-						id="name"
-						name="name"
 						className="h-[35px] w-full rounded border border-teal-300 px-2 focus:border-2 focus:border-teal-500 focus:outline-none disabled:cursor-not-allowed disabled:select-none disabled:border-none disabled:bg-gray-100"
 					/>
 					{errors?.username && <span className="text-xs text-red-500">{errors?.username.message}</span>}
@@ -80,6 +78,7 @@ const FeedForm = ({ onCloseModal }: FeedFormProps) => {
 							</option>
 						))}
 					</select>
+					{errors?.source && <span className="text-xs text-red-500">{errors?.source.message}</span>}
 				</div>
 				<div>
 					<p className="mb-2 text-center uppercase text-zinc-500">favorite categories</p>
@@ -96,12 +95,12 @@ const FeedForm = ({ onCloseModal }: FeedFormProps) => {
 								defaultChecked={Boolean(personalizedFeed?.categories?.find?.((stgCategory: string) => stgCategory === category))}
 								type="checkbox"
 								id={category}
-								name="categories"
 								value={category}
 								className="border-teal-300 bg-teal-100 text-teal-500 focus:ring-teal-200"
 							/>
 						</div>
 					))}
+					{errors?.categories && <span className="text-xs text-red-500">{errors?.categories.message}</span>}
 				</div>
 				<div className="text-right">
 					<button className="rounded border border-teal-500 px-5 py-2 font-medium leading-none text-teal-500" type="submit">
