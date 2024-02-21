@@ -1,29 +1,45 @@
 import Article from "./Article.tsx";
-import type ArticleType from "../../../types/Article.d.ts";
-import type PaginationType from "../../../types/Pagination.d.ts";
-import Pagination from "../../../components/Pagination.tsx";
+import Pagination from "react-js-pagination";
+import { ArticlesResType } from "../../../types/ArticlesRes";
+import { BiLoaderCircle } from "react-icons/bi";
+import { HiExclamation } from "react-icons/hi";
 
 interface ArticlesListProps {
-	articles: Partial<ArticleType>[];
-	small?: boolean;
-	pagination?: PaginationType;
+	articles: ArticlesResType["articles"] | undefined;
 	withPagination?: boolean;
-	aside?: boolean;
+	pagination?: ArticlesResType["pagination"];
+	isLoading?: boolean;
+	isError?: boolean;
 }
 
-const ArticlesList = ({ articles, pagination, small = false, withPagination = true, aside = false }: ArticlesListProps) => {
+const ArticlesList = ({ articles, withPagination, pagination, isLoading, isError }: ArticlesListProps) => {
+	if (isLoading) {
+		return (
+			<div className="flex items-center justify-center">
+				<BiLoaderCircle className="animate-spin text-yellow-500" size={36} />
+			</div>
+		);
+	}
+	if (isError || !articles) {
+		return (
+			<div className="flex flex-col items-center text-center">
+				<HiExclamation className="text-red-500" size={36} />
+				<p>Error loading most viewed articles</p>
+			</div>
+		);
+	}
+
 	return (
-		<>
-			<div className={`flex flex-wrap items-center gap-[30px] md:items-start ${small ? "flex-row flex-wrap" : "flex-col"}`}>
-				{articles?.length === 0 && <p>No articles for your current search/feed</p>}
-				{articles?.length > 0 && articles?.map((article) => <Article key={article.title} article={article} small={small} aside={aside} />)}
+		<div className="w-full">
+			<div className="@container flex flex-col gap-y-8">
+				{articles.length > 0 ? articles.map((article) => <Article key={article.id} article={article} />) : <p>No articles to show 🥲</p>}
 			</div>
 			{withPagination && pagination && pagination?.totalPages > 1 && (
 				<div className="mt-8 flex items-center justify-center">
-					<Pagination pagination={pagination} />
+					<Pagination activePage={pagination.currentPage} totalItemsCount={pagination.totalResults} onChange={(e) => console.log("e", e)} />
 				</div>
 			)}
-		</>
+		</div>
 	);
 };
 export default ArticlesList;

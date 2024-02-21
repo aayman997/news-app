@@ -1,31 +1,28 @@
-import type ArticleType from "../../../types/Article.d.ts";
 import dateFormatter from "../../../utils/dateFormatter.ts";
+import { ArticlesResType } from "../../../types/ArticlesRes";
 
 interface ArticleProps {
-	article: Partial<ArticleType>;
-	small?: boolean;
-	aside?: boolean;
+	article: ArticlesResType["articles"][0];
 }
 
-const Article = ({ article, small, aside }: ArticleProps) => {
+const Article = ({ article }: ArticleProps) => {
 	const { title, abstract, author, date, image, source } = article;
+
+	const authorName = author && author.split(" ")[0] === "By" ? `${author.split(" ")[0]} ${author.split(" ")[1]}` : author!.split(" ")[0];
+
 	return (
 		<article
-			className={`border-gray-200-100 flex shrink-0 grow flex-col flex-nowrap gap-5 overflow-hidden rounded-md border bg-stone-100 shadow-sm transition-all duration-300 hover:shadow-xl sm:basis-[300px] md:w-auto md:grow-0 md:basis-auto md:flex-row 
-			${
-				small
-					? "shrink-0 grow basis-1/2 flex-wrap md:max-w-[360px] md:grow md:basis-[47%] lg:max-w-full [&]:flex-col"
-					: "flex-col md:w-[100%] md:max-w-[100%] md:flex-row"
-			} ${aside ? "lg:basis-full" : "items-stretch md:basis-[calc((100%-30px)/2)] lg:grow lg:basis-[calc(100%/5)]"}`}
+			className="@xl:flex-row @xl:gap-y-0 @xl:gap-x-4 @xl:h-50 @xl:col-span-6 col-span-12 flex basis-full flex-col gap-y-4 rounded-md border
+			border-brand-500 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
 		>
-			<div className="aspect-video h-[170px] shrink-0 grow-0">
-				<img src={image} alt="" className="h-full w-full object-cover" />
+			<div className="@xl:h-40 @xl:aspect-video">
+				<img src={image} alt="" className="@xl:rounded-none @xl:rounded-l-md @xl:object-cover h-full w-full rounded-t-md" />
 			</div>
-			<div className={`grow-1 flex w-full flex-col gap-2 ${small ? "px-3 pb-3" : "px-3 pb-3 md:p-3 md:pl-0"}`}>
-				<h2 className="line-clamp-2 min-h-[48px] font-medium">{title}</h2>
-				<p className="line-clamp-3 h-[60px] text-sm text-zinc-600">{abstract}</p>
-				<div className="mt-auto flex flex-wrap items-center justify-between text-zinc-500">
-					{author && <p className="text-xs">{author.slice(0, 30)}</p>}
+			<div className="@xl:px-0 @xl:pr-4 @xl:py-4 @xl:justify-between flex w-full flex-col gap-y-2 px-2 pb-2">
+				<h2 className="@xl:min-h-0 line-clamp-2 min-h-[48px] font-medium text-brand-700">{title}</h2>
+				<p className="@xl:h-auto line-clamp-3 h-16 text-sm text-zinc-600">{abstract}</p>
+				<div className="@xl:flex-row @xl:gap-x-4 @xl:justify-between @xl:items-center flex flex-col gap-y-1 text-zinc-500">
+					{author && <p className="text-xs">{authorName}</p>}
 					{date && <p className="text-xs">{dateFormatter(date)}</p>}
 					{source && typeof source === "string" && <p className="text-xs">{source}</p>}
 				</div>

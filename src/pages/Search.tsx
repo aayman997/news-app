@@ -65,7 +65,6 @@ const Search = () => {
 			to: endDate,
 			category: categoriesString,
 		};
-		console.log("paramsObject", paramsObject);
 		return () => {
 			setErrorLoadingArticles(false);
 			setArticles(() => ({}) as ArticlesType);
