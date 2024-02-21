@@ -4,6 +4,7 @@ import { Source } from "../../../types/Source";
 import { Category } from "../../../types/Categories";
 import { SOURCES, CATEGORIES } from "../../../constants";
 import usePersonalizeFeed from "../hooks/usePersonalizeFeed.ts";
+import { useEffect } from "react";
 
 interface FeedFormProps {
 	onCloseModal?: () => void;
@@ -23,7 +24,18 @@ const FeedForm = ({ onCloseModal }: FeedFormProps) => {
 		register,
 		formState: { errors },
 		handleSubmit,
+		setValue,
+		watch,
 	} = useForm<CreateUserPreferences>();
+
+	const sourceWatch = watch("source");
+
+	useEffect(() => {
+		console.log("source", sourceWatch);
+		if (sourceWatch === "News API") {
+			setValue("categories", []);
+		}
+	}, [setValue, sourceWatch]);
 
 	const handler: SubmitHandler<CreateUserPreferences> = ({ username, source, categories }) => {
 		personalizeFeed(
@@ -97,6 +109,7 @@ const FeedForm = ({ onCloseModal }: FeedFormProps) => {
 								id={category}
 								value={category}
 								className="border-teal-300 bg-teal-100 text-teal-500 focus:ring-teal-200"
+								disabled={watch("source") === "News API" && watch("categories").length === 1 && category !== watch("categories")[0]}
 							/>
 						</div>
 					))}

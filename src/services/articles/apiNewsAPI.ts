@@ -29,6 +29,7 @@ const buildURL = (paramsData: ApiNewsAPIParamsType): string => {
 	const params: Record<string, string> = {
 		apiKey: API_KEY,
 		pageSize: PAGE_SIZE.toString(),
+		language: "en",
 		...paramsData,
 	};
 	if (paramsData.category) {

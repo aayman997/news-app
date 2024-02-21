@@ -6,13 +6,13 @@ import UserPreferences from "../../../types/UserPreferences";
 
 const useArticles = () => {
 	const queryClient = useQueryClient();
-	const personalizedFeed = queryClient.getQueryData(["authUser"]) as UserPreferences;
+	const personalizedFeed = queryClient.getQueryData(["personalizedFeed"]) as UserPreferences;
 
 	const { isLoading, data, isError } = useQuery<ArticlesResType | ArticlesRes>({
 		queryKey: ["articles", personalizedFeed],
 		queryFn: () =>
 			handleGetNews(personalizedFeed.source, {
-				categories: personalizedFeed.categories,
+				category: personalizedFeed.categories,
 			}),
 		enabled: !!personalizedFeed,
 	});
