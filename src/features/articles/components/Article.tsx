@@ -7,8 +7,15 @@ interface ArticleProps {
 
 const Article = ({ article }: ArticleProps) => {
 	const { title, abstract, author, date, image, source } = article;
+	let authorName = "unknown";
 
-	const authorName = author && author.split(" ")[0] === "By" ? `${author.split(" ")[0]} ${author.split(" ")[1]}` : author!.split(" ")[0];
+	if (author) {
+		if (author.length > 20) {
+			authorName = `${author.slice(0, 20)}...`;
+		} else {
+			authorName = author;
+		}
+	}
 
 	return (
 		<article
@@ -22,7 +29,7 @@ const Article = ({ article }: ArticleProps) => {
 				<h2 className="@xl:min-h-0 line-clamp-2 min-h-[48px] font-medium text-brand-700">{title}</h2>
 				<p className="@xl:h-auto line-clamp-3 h-16 text-sm text-zinc-600">{abstract}</p>
 				<div className="@xl:flex-row @xl:gap-x-4 @xl:justify-between @xl:items-center flex flex-col gap-y-1 text-zinc-500">
-					{author && <p className="text-xs">{authorName}</p>}
+					<p className="text-xs">{authorName}</p>
 					{date && <p className="text-xs">{dateFormatter(date)}</p>}
 					{source && typeof source === "string" && <p className="text-xs">{source}</p>}
 				</div>
