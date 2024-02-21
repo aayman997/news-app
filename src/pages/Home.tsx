@@ -7,7 +7,7 @@ import usePersonalizeFeed from "../features/personalization/hooks/usePersonalize
 export default function Home() {
 	const { data: articlesFeed, isLoading, isError } = useArticles();
 	const { personalizedFeed } = usePersonalizeFeed();
-	console.log("articlesFeed", articlesFeed);
+
 	return (
 		<section className="container my-10">
 			{!personalizedFeed ? (

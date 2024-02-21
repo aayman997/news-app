@@ -13,6 +13,9 @@ const apiSources: Record<Source, ApiFunction> = {
 };
 
 const handleGetNews = (source: Source, data: any) => {
+	if (source === "New York Times") {
+		return apiNewYorkTimes({ ...data, query: data.category.join("+") });
+	}
 	const apiFunction = apiSources[source] || apiNewsAPI;
 	return apiFunction(data);
 };

@@ -26,15 +26,17 @@ const createUrl = (mostViewed: boolean, query?: string, page?: string, sort?: st
 	return new URL(endpoint);
 };
 
-const apiNewYorkTimes = async (
-	mostViewed: boolean = false,
-	query?: string,
-	page?: string,
-	sort?: string,
-	beginDate?: string,
-	endDate?: string,
-): Promise<ArticlesRes> => {
-	console.log("***********************************************************");
+interface ParamsData {
+	mostViewed: boolean;
+	query?: string;
+	page?: string;
+	sort?: string;
+	beginDate?: string;
+	endDate?: string;
+	category?: string;
+}
+
+const apiNewYorkTimes = async ({ mostViewed, query, page, sort, beginDate, endDate }: ParamsData): Promise<ArticlesRes> => {
 	const url = createUrl(mostViewed, query, page, sort, beginDate, endDate);
 	const res = await fetch(url.toString());
 	const data = await res.json();
