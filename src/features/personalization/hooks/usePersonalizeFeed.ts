@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import getPersonalizeFeed from "../../../services/personalizeFeed/getPersonalizeFeed.ts";
 import UserPreferences from "../../../types/UserPreferences";
 
-const useCreatePersonalizeFeed = () => {
+const usePersonalizeFeed = () => {
 	const {
 		isLoading,
 		data: personalizedFeed,
@@ -16,4 +16,4 @@ const useCreatePersonalizeFeed = () => {
 	return { isLoading, personalizedFeed, error };
 };
 
-export default useCreatePersonalizeFeed;
+export default usePersonalizeFeed;
