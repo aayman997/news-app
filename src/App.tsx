@@ -6,6 +6,7 @@ import Search from "./pages/Search.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
+import Explore from "./pages/Explore.tsx";
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -24,6 +25,7 @@ function App() {
 					<Route path="/" element={<Layout />}>
 						<Route index element={<Home />} />
 						<Route path="search" element={<Search />} />
+						<Route path="explore/:category" element={<Explore />} />
 					</Route>
 
 					<Route path="*" element={<PageNotFound />} />

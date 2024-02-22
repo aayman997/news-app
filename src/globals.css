@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.pagination {
+	@apply flex justify-center items-center gap-1;
+
+	li {
+		@apply w-8 h-8 flex justify-center items-center rounded-md transition-all duration-300;
+
+		a {
+			@apply py-1 px-2;
+		}
+
+		&:hover {
+			@apply bg-brandYellow text-black shadow-xl;
+		}
+
+		&.active {
+			@apply bg-brandPink text-white;
+		}
+
+		&.disabled {
+			@apply hidden text-gray-100;
+
+			&:hover {
+				color : inherit;
+			}
+		}
+	}
+}

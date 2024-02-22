@@ -36,7 +36,7 @@ export default function Home() {
 								<PersonalizedFeed />
 							</div>
 							<div className="mt-8">
-								<ArticlesList articles={articlesFeed?.articles} pagination={articlesFeed?.pagination} isLoading={isLoading} isError={isError} />
+								<ArticlesList articles={articlesFeed?.articles} isLoading={isLoading} isError={isError} />
 							</div>
 						</div>
 						<aside className="basis-1/5">

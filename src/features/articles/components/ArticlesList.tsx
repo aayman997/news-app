@@ -1,18 +1,17 @@
 import Article from "./Article.tsx";
-import Pagination from "react-js-pagination";
 import { ArticlesResType } from "../../../types/ArticlesRes";
 import { BiLoaderCircle } from "react-icons/bi";
 import { HiExclamation } from "react-icons/hi";
+import Pagination from "../../../components/Pagination.tsx";
 
 interface ArticlesListProps {
 	articles: ArticlesResType["articles"] | undefined;
-	withPagination?: boolean;
 	pagination?: ArticlesResType["pagination"];
 	isLoading?: boolean;
 	isError?: boolean;
 }
 
-const ArticlesList = ({ articles, withPagination, pagination, isLoading, isError }: ArticlesListProps) => {
+const ArticlesList = ({ articles, pagination, isLoading, isError }: ArticlesListProps) => {
 	if (isLoading) {
 		return (
 			<div className="flex items-center justify-center">
@@ -32,11 +31,15 @@ const ArticlesList = ({ articles, withPagination, pagination, isLoading, isError
 	return (
 		<div className="w-full">
 			<div className="grid grid-cols-12 flex-col gap-6 @container">
-				{articles.length > 0 ? articles.map((article) => <Article key={article.id} article={article} />) : <p>No articles to show 🥲</p>}
+				{articles.length > 0 ? (
+					articles.map((article) => <Article key={article.id} article={article} />)
+				) : (
+					<p className="col-span-2 col-start-6 text-center">No articles to show 🥲</p>
+				)}
 			</div>
-			{withPagination && pagination && pagination?.totalPages > 1 && (
+			{pagination && pagination?.totalPages > 1 && (
 				<div className="mt-8 flex items-center justify-center">
-					<Pagination activePage={pagination.currentPage} totalItemsCount={pagination.totalResults} onChange={(e) => console.log("e", e)} />
+					<Pagination pagination={pagination} />
 				</div>
 			)}
 		</div>
