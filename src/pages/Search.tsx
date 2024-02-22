@@ -65,6 +65,7 @@ const Search = () => {
 			to: endDate,
 			category: categoriesString,
 		};
+		console.log("paramsObject", paramsObject);
 		return () => {
 			setErrorLoadingArticles(false);
 			setArticles(() => ({}) as ArticlesType);
@@ -119,7 +120,7 @@ const Search = () => {
 						</button>
 					</div>
 					{errorLoadingArticles && <p>Error happened while loading data 🥲</p>}
-					<ArticlesList articles={articles.articles} pagination={articles.pagination} small={false} />
+					<ArticlesList articles={articles.articles} pagination={articles.pagination} />
 				</div>
 			</div>
 		</>
