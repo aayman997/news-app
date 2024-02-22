@@ -31,7 +31,7 @@ const ArticlesList = ({ articles, withPagination, pagination, isLoading, isError
 
 	return (
 		<div className="w-full">
-			<div className="@container flex flex-col gap-y-8">
+			<div className="grid grid-cols-12 flex-col gap-6 @container">
 				{articles.length > 0 ? articles.map((article) => <Article key={article.id} article={article} />) : <p>No articles to show 🥲</p>}
 			</div>
 			{withPagination && pagination && pagination?.totalPages > 1 && (

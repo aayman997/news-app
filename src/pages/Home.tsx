@@ -35,7 +35,7 @@ export default function Home() {
 								<h3 className="text-center text-xl font-bold text-brand-500">My Feed</h3>
 								<PersonalizedFeed />
 							</div>
-							<div className="mt-8 flex flex-col gap-y-8">
+							<div className="mt-8">
 								<ArticlesList articles={articlesFeed?.articles} pagination={articlesFeed?.pagination} isLoading={isLoading} isError={isError} />
 							</div>
 						</div>
