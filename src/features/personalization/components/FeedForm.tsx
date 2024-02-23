@@ -50,7 +50,7 @@ const FeedForm = ({ onCloseModal }: FeedFormProps) => {
 
 	return (
 		<div className="w-[400px] px-8">
-			<h1 className="pb-10 text-lg font-medium text-teal-600">my feed preferences</h1>
+			<h1 className="pb-10 text-lg font-medium text-brand-600">my feed preferences</h1>
 			<form onSubmit={handleSubmit(handler)} className="flex flex-col gap-6" id="userPreferencesForm">
 				<div className="flex flex-col items-start justify-between gap-2">
 					<label htmlFor="name" className="capitalize text-zinc-500">
@@ -65,7 +65,7 @@ const FeedForm = ({ onCloseModal }: FeedFormProps) => {
 						})}
 						defaultValue={personalizedFeed?.username}
 						type="text"
-						className="h-[35px] w-full rounded border border-teal-300 px-2 focus:border-2 focus:border-teal-500 focus:outline-none disabled:cursor-not-allowed disabled:select-none disabled:border-none disabled:bg-gray-100"
+						className="h-[35px] w-full rounded border border-brand-300 px-2 focus:border-2 focus:border-brand-500 focus:outline-none disabled:cursor-not-allowed disabled:select-none disabled:border-none disabled:bg-gray-100"
 					/>
 					{errors?.username && <span className="text-xs text-red-500">{errors?.username.message}</span>}
 				</div>
@@ -75,7 +75,7 @@ const FeedForm = ({ onCloseModal }: FeedFormProps) => {
 					</label>
 					<select
 						id="sources"
-						className="h-[35px] w-[160px] rounded border border-teal-300 px-2 leading-none focus:border-2 focus:border-teal-500 focus:outline-none"
+						className="h-[35px] w-[160px] rounded border border-brand-300 px-2 leading-none focus:border-2 focus:border-brand-500 focus:outline-none"
 						{...register("source", {
 							required: {
 								value: true,
@@ -108,7 +108,7 @@ const FeedForm = ({ onCloseModal }: FeedFormProps) => {
 								type="checkbox"
 								id={category}
 								value={category}
-								className="border-teal-300 bg-teal-100 text-teal-500 focus:ring-teal-200"
+								className="border-brand-300 bg-brand-100 text-brand-500 focus:ring-brand-200"
 								disabled={watch("source") === "News API" && watch("categories").length === 1 && category !== watch("categories")[0]}
 							/>
 						</div>
@@ -116,7 +116,7 @@ const FeedForm = ({ onCloseModal }: FeedFormProps) => {
 					{errors?.categories && <span className="text-xs text-red-500">{errors?.categories.message}</span>}
 				</div>
 				<div className="text-right">
-					<button className="rounded border border-teal-500 px-5 py-2 font-medium leading-none text-teal-500" type="submit">
+					<button className="rounded border border-brand-500 px-5 py-2 font-medium leading-none text-brand-500" type="submit">
 						Save
 					</button>
 				</div>

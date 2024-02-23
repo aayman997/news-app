@@ -1,7 +1,7 @@
-import ArticleType from "../types/Article.ts";
 import { Article } from "../services/articles/Article.ts";
+import { ArticleNYTMostPopularApi } from "../types/articles/ArticleNYTMostPopularApi";
 
-const newYorkTimeToArticleDTO = (articles: ArticleType[]) => {
+const newYorkTimeToArticleDTO = (articles: ArticleNYTMostPopularApi[]) => {
 	if (!articles.length) {
 		return [];
 	}

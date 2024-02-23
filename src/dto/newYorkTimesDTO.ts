@@ -1,7 +1,7 @@
-import ArticleType, { Byline } from "../types/Article.ts";
 import { Article } from "../services/articles/Article.ts";
+import { ArticleNYTSearchApi } from "../types/articles/ArticleNYTSearchApi";
 
-const newYorkTimesDTO = (articles: ArticleType[]) => {
+const newYorkTimesDTO = (articles: ArticleNYTSearchApi[]) => {
 	const NEW_YORK_TIMES_BASE_URL = "https://www.nytimes.com/";
 	if (!articles.length) {
 		return [];
@@ -24,8 +24,8 @@ const newYorkTimesDTO = (articles: ArticleType[]) => {
 			abstract: article.abstract,
 			date: article.pub_date,
 			url: article.web_url,
-			author: (article.byline as Byline).original,
-			source: article?.source as string,
+			author: article.byline.original,
+			source: article.source,
 			image: imageURL,
 		});
 	});

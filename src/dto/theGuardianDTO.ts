@@ -1,16 +1,13 @@
-import ArticleType from "../types/Article.ts";
 import { Article } from "../services/articles/Article.ts";
+import { ArticleTheGuardianApi } from "../types/articles/ArticleTheGuardianApi";
 
-const theGuardianDTO = (articles: ArticleType[]) => {
+const theGuardianDTO = (articles: ArticleTheGuardianApi[]) => {
 	if (!articles.length) {
 		return [];
 	}
 	return articles.map((article) => {
-		const curTimeStamp = Date.now();
-		const timestamp = new Date(article.webPublicationDate).getTime();
-		const id = curTimeStamp + timestamp;
 		return new Article({
-			id: id.toString(),
+			id: crypto.randomUUID(),
 			title: article.webTitle,
 			abstract: article.fields.body.replace(/<\/?[^>]+(>|$)/g, ""),
 			date: article.webPublicationDate,

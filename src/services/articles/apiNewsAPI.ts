@@ -1,12 +1,12 @@
 import newsAPIDTO from "../../dto/newsAPIDTO.ts";
-import ArticleType from "../../types/Article.ts";
 import PaginationType from "../../types/Pagination.ts";
 import { ArticlesResType } from "../../types/ArticlesRes";
+import { ArticleNewApi } from "../../types/articles/ArticleNewApi";
 
 interface ApiNewsAPIData {
 	status: string;
 	totalResults: number;
-	articles: ArticleType[];
+	articles: ArticleNewApi[];
 }
 
 interface ApiNewsAPIError {
@@ -16,7 +16,10 @@ interface ApiNewsAPIError {
 }
 
 type ApiResponse = ApiNewsAPIData | ApiNewsAPIError;
-type ApiNewsAPIParamsType = Record<string, string | undefined>;
+type ApiNewsAPIParamsType = {
+	category: string;
+	page?: string;
+};
 
 const PAGE_SIZE = 10;
 const LAST_AVAILABLE_PAGES = 10;
@@ -26,19 +29,23 @@ const API_KEY = import.meta.env.VITE_NEWSAPI_API_KEY;
 
 const buildURL = (paramsData: ApiNewsAPIParamsType): string => {
 	let url;
-	const params: Record<string, string> = {
+	const commonParams: { apiKey: string; pageSize: string; language: string } = {
 		apiKey: API_KEY,
 		pageSize: PAGE_SIZE.toString(),
 		language: "en",
-		...paramsData,
 	};
+	let finalParams: typeof commonParams & Partial<ApiNewsAPIParamsType>;
+
 	if (paramsData.category) {
 		url = BASE_URL + "top-headlines?";
+		finalParams = { ...commonParams, ...paramsData };
 	} else {
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const { category, ...restParamsData } = paramsData;
 		url = BASE_URL + "everything?";
-		delete params.category;
+		finalParams = { ...commonParams, ...restParamsData };
 	}
-	const searchParams = new URLSearchParams(params);
+	const searchParams = new URLSearchParams(finalParams);
 	url = url + searchParams;
 	return url;
 };

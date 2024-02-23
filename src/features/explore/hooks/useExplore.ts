@@ -3,7 +3,8 @@ import { useParams, useSearchParams } from "react-router-dom";
 import apiNewsAPI from "../../../services/articles/apiNewsAPI.ts";
 
 const useExplore = () => {
-	const { category } = useParams();
+	const { category: categoryParam } = useParams();
+	const category = categoryParam!;
 	const queryClient = useQueryClient();
 	const [searchParams] = useSearchParams();
 	const page = searchParams.get("page") ?? "1";
@@ -17,7 +18,7 @@ const useExplore = () => {
 		if (+page < data?.pagination.totalPages) {
 			const nextPage = (+page + 1).toString();
 			queryClient.prefetchQuery({
-				queryKey: ["explore", category, nextPage],
+				queryKey: ["explore", nextPage, category],
 				queryFn: () => apiNewsAPI({ category, page: nextPage }),
 			});
 		}

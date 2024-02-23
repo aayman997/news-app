@@ -9,7 +9,7 @@ export default function AppNavbar() {
 				<Link className="inline-block" to="/">
 					<img className="inline-block h-full max-h-10" src={logo} alt="app logo" />
 				</Link>
-				<ul className="flex flex-col flex-nowrap gap-4 font-medium capitalize text-teal-50 md:flex-row md:items-center xl:gap-8">
+				<ul className="flex flex-col flex-nowrap gap-4 font-medium capitalize text-brand-50 md:flex-row md:items-center xl:gap-8">
 					{CATEGORIES.slice(0, 3).map((category) => (
 						<li key={category}>
 							<Link to={`/explore/${category}`}>{category}</Link>

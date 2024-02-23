@@ -3,15 +3,19 @@ import apiNewsAPI from "./apiNewsAPI.ts";
 import apiNewYorkTimes from "./apiNewYorkTimes.ts";
 import apiTheGuardian from "./apiTheGuardian.ts";
 
-const handleGetNews = (source: Source, data: any) => {
+interface ParamsDataType {
+	category: string[];
+}
+
+const handleGetNews = (source: Source, paramData: ParamsDataType) => {
 	if (source === "New York Times") {
-		return apiNewYorkTimes({ ...data, query: data.category.join("+") });
+		return apiNewYorkTimes({ mostViewed: false, query: paramData.category.join("+") });
 	}
 	if (source === "The Guardian") {
-		return apiTheGuardian({ ...data, section: data.category });
+		return apiTheGuardian({ ...paramData, section: paramData.category });
 	}
 
-	return apiNewsAPI(data);
+	return apiNewsAPI({ ...paramData, category: paramData.category.join("") });
 };
 
 export default handleGetNews;
