@@ -7,7 +7,7 @@ interface ArticlesRes extends ArticlesResType {
 export type ParamsData = {
 	query?: string;
 	page?: string;
-	orderBy?: string;
+	"order-by"?: string;
 	orderDate?: string;
 	section?: string;
 	startDate?: string;

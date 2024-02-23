@@ -5,22 +5,17 @@ import SearchFilter from "../components/SearchFilter.tsx";
 import ArticlesList from "../features/articles/components/ArticlesList.tsx";
 import clsx from "clsx";
 import useFilterArticles from "../features/filters/hooks/useFilterArticles.ts";
+import updateSearchParamsField from "../utils/updateSearchParamsField.ts";
 
 const Search = () => {
 	const { data: articles, isError, isLoading } = useFilterArticles();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [showFilter, setShowFilter] = useState(false);
-	const orderBy = searchParams.get("orderBy") ?? "relevance";
+	const orderBy = searchParams.get("order-by") ?? "relevance";
 
 	const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
 		const value = e.target.value;
-		setSearchParams((prevParams) => {
-			const newParams = new URLSearchParams({
-				...Object.fromEntries(prevParams.entries()),
-			});
-			newParams.set("orderBy", value);
-			return newParams;
-		});
+		setSearchParams((prevParams) => updateSearchParamsField("order-by", value, prevParams));
 	};
 
 	return (

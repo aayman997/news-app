@@ -23,7 +23,7 @@ const ArticlesList = ({ articles, pagination, isLoading, isError }: ArticlesList
 		return (
 			<div className="flex flex-col items-center text-center">
 				<HiExclamation className="text-red-500" size={36} />
-				<p>Error loading most viewed articles</p>
+				<p>Error loading articles</p>
 			</div>
 		);
 	}
