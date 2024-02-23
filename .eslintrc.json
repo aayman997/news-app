@@ -8,7 +8,8 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:@tanstack/eslint-plugin-query/recommended"
+    "plugin:@tanstack/eslint-plugin-query/recommended",
+    "prettier"
   ],
   "ignorePatterns": [
     "dist",
@@ -17,6 +18,14 @@
   "parser": "@typescript-eslint/parser",
   "plugins": [
     "react-refresh"
-  ]
+  ],
+  "rules": {
+    "max-len": [
+      "error",
+      {
+        "code": 160
+      }
+    ]
+  }
 }
 

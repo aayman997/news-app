@@ -12,7 +12,7 @@ const handleGetNews = (source: Source, paramData: ParamsDataType) => {
 		return apiNewYorkTimes({ mostViewed: false, query: paramData.category.join("+") });
 	}
 	if (source === "The Guardian") {
-		return apiTheGuardian({ ...paramData, section: paramData.category });
+		return apiTheGuardian({ ...paramData, section: paramData.category.join("|") });
 	}
 
 	return apiNewsAPI({ ...paramData, category: paramData.category.join("") });

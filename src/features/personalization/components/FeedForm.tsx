@@ -31,13 +31,13 @@ const FeedForm = ({ onCloseModal }: FeedFormProps) => {
 	const sourceWatch = watch("source");
 
 	useEffect(() => {
-		console.log("source", sourceWatch);
 		if (sourceWatch === "News API") {
 			setValue("categories", []);
 		}
 	}, [setValue, sourceWatch]);
 
 	const handler: SubmitHandler<CreateUserPreferences> = ({ username, source, categories }) => {
+		console.log("categories", categories);
 		personalizeFeed(
 			{ username, categories, source },
 			{
@@ -65,7 +65,8 @@ const FeedForm = ({ onCloseModal }: FeedFormProps) => {
 						})}
 						defaultValue={personalizedFeed?.username}
 						type="text"
-						className="h-[35px] w-full rounded border border-brand-300 px-2 focus:border-2 focus:border-brand-500 focus:outline-none disabled:cursor-not-allowed disabled:select-none disabled:border-none disabled:bg-gray-100"
+						className="h-[35px] w-full rounded border border-brand-300 px-2 focus:border-2 focus:border-brand-500 focus:outline-none
+						disabled:cursor-not-allowed disabled:select-none disabled:border-none disabled:bg-gray-100"
 					/>
 					{errors?.username && <span className="text-xs text-red-500">{errors?.username.message}</span>}
 				</div>
@@ -75,7 +76,8 @@ const FeedForm = ({ onCloseModal }: FeedFormProps) => {
 					</label>
 					<select
 						id="sources"
-						className="h-[35px] w-[160px] rounded border border-brand-300 px-2 leading-none focus:border-2 focus:border-brand-500 focus:outline-none"
+						className="h-[35px] w-[160px] rounded border border-brand-300 px-2 leading-none focus:border-2 focus:border-brand-500
+						focus:outline-none"
 						{...register("source", {
 							required: {
 								value: true,
