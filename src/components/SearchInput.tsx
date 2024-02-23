@@ -32,14 +32,14 @@ const SearchInput = ({ headerSearch = false }: { headerSearch?: boolean }) => {
 
 	return (
 		<form
-			className={clsx("relative h-12 w-80 overflow-hidden rounded-md border-2 border-brandPink", headerSearch && "h-[35px] w-48 border-brandYellow")}
+			className={clsx("relative overflow-hidden rounded-md border-2", headerSearch ? "h-[35px] w-48 border-brandYellow" : "h-12 w-80 border-brandPink")}
 			onSubmit={handleSearch}
 		>
 			<input
 				className={clsx(
-					`absolute inset-0 right-[44px] border-none bg-brandYellow px-4 font-normal placeholder:text-sm placeholder:capitalize
-					placeholder:text-gray-400 placeholder:text-gray-500/50 focus:border-none focus:outline focus:outline-white`,
-					headerSearch && "right-[31px] bg-white px-2 text-richBlack",
+					`absolute inset-0 border-none font-normal placeholder:text-sm placeholder:capitalize placeholder:text-gray-400
+					placeholder:text-gray-500/50 focus:border-none focus:outline focus:outline-white`,
+					headerSearch ? "right-[31px] bg-white px-2 text-richBlack" : "right-[44px] bg-brandYellow px-4",
 				)}
 				type="search"
 				name="search"
