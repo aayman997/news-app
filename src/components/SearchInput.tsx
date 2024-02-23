@@ -7,12 +7,12 @@ const SearchInput = ({ headerSearch = false }: { headerSearch?: boolean }) => {
 	const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const query = searchParams.get("query") ?? "";
-
 	const handleSearch = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const searchElement = e.currentTarget.elements.namedItem("search");
 		if (searchElement) {
-			const query = (searchElement as HTMLInputElement).value;
+			const input = searchElement as HTMLInputElement;
+			const query = input.value;
 			if (headerSearch && !query) {
 				return;
 			}
@@ -23,6 +23,7 @@ const SearchInput = ({ headerSearch = false }: { headerSearch?: boolean }) => {
 
 			if (headerSearch) {
 				navigate(`/search?query=${query}`);
+				input.value = "";
 				return;
 			}
 
