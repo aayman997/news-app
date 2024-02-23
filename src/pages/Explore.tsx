@@ -14,8 +14,8 @@ export default function Explore() {
 
 	return (
 		<div className="container my-10 flex flex-col items-center gap-y-8">
-			<h1 className="text-center text-4xl font-bold text-brand-500">
-				Explore articles in: <span className="capitalize text-brandPink">{category}</span>
+			<h1 className="text-center text-xl font-bold text-brand-500 md:text-4xl">
+				Explore articles in <span className="capitalize text-brandPink">{category}</span>
 			</h1>
 			<ArticlesList articles={data?.articles} pagination={data?.pagination} isLoading={isLoading} isError={isError} />
 		</div>

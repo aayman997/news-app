@@ -1,8 +1,9 @@
-import { useState, ChangeEvent, useEffect, useCallback } from "react";
+import { useState, ChangeEvent, useEffect, useCallback, Dispatch } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { HiOutlineClock } from "react-icons/hi2";
 import { AUTHORS } from "../constants";
 import { useSearchParams } from "react-router-dom";
+import useOutsideClick from "../hooks/useOutsideClick.ts";
+import updateSearchParamsField from "../utils/updateSearchParamsField.ts";
 
 const datesError = ({ startDate, endDate }: { startDate: string | null; endDate: string | null }): string | null => {
 	const now = new Date();
@@ -17,13 +18,14 @@ const datesError = ({ startDate, endDate }: { startDate: string | null; endDate:
 	return null;
 };
 
-const SearchFilter = () => {
+const SearchFilter = ({ setShowFilter }: { setShowFilter: Dispatch<boolean> }) => {
 	const [dateError, setDateError] = useState<string | null>();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const authors = searchParams?.get("authors")?.split("|") ?? [];
 	const section = searchParams?.get("section")?.split("|") ?? [];
-	const [startDate, setStartDate] = useState(() => searchParams.get("startDate"));
-	const [endDate, setEndDate] = useState(() => searchParams.get("endDate"));
+	const [startDate, setStartDate] = useState(() => searchParams.get("startDate") ?? null);
+	const [endDate, setEndDate] = useState(() => searchParams.get("endDate") ?? null);
+	const filterRes = useOutsideClick<HTMLDivElement>(() => setShowFilter(false));
 
 	const handleDateChange = useCallback(() => {
 		setDateError(() => datesError({ startDate, endDate }));
@@ -38,53 +40,37 @@ const SearchFilter = () => {
 		const checked = e.target.checked;
 
 		setSearchParams((prevParams) => {
-			const currentFieldValue = prevParams.get(field) ?? "";
-			const newParams = new URLSearchParams({
-				...Object.fromEntries(prevParams.entries()),
-			});
-
 			if (checked) {
-				newParams.set(field, currentFieldValue ? `${currentFieldValue}|${value}` : value);
+				const newParamsValue = prevParams.get(field) ? `${prevParams.get(field)}|${value}` : value;
+				return updateSearchParamsField(field, newParamsValue, prevParams);
 			} else {
+				const currentFieldValue = prevParams.get(field) ?? "";
 				const newFieldValue = currentFieldValue
 					.split("|")
-					.filter((fieldItem) => fieldItem !== value && fieldItem !== "")
+					.filter((fieldItem) => fieldItem !== value)
 					.join("|");
-
-				if (newFieldValue !== "") {
-					newParams.set(field, newFieldValue);
-				} else {
-					newParams.delete(field);
-				}
+				return updateSearchParamsField(field, newFieldValue !== "" ? newFieldValue : null, prevParams);
 			}
-
-			return newParams;
 		});
 	};
 
 	const handleDateFilter = () => {
-		setSearchParams((prevParams) => {
-			const newParams = new URLSearchParams({
-				...Object.fromEntries(prevParams.entries()),
-			});
-			if (startDate) {
-				newParams.set("startDate", startDate);
-			}
-			if (endDate) {
-				newParams.set("endDate", endDate);
-			}
-			return newParams;
-		});
+		if (startDate) {
+			setSearchParams((prevParams) => updateSearchParamsField("startDate", startDate, prevParams));
+		}
+		if (endDate) {
+			setSearchParams((prevParams) => updateSearchParamsField("endDate", endDate, prevParams));
+		}
 	};
 
 	return (
-		<div className="rounded-md border border-charcoal/30 bg-gray-100 px-4 py-6 shadow-lg">
+		<div ref={filterRes} className="bg-gray-100 lg:rounded-md lg:border lg:border-charcoal/30 lg:px-4 lg:py-6 lg:shadow-lg">
 			<div className="flex items-center justify-between">
 				<h3 className="mx-auto mb-5 text-lg font-bold tracking-widest text-brand-500">Search Filter</h3>
 				<button
 					className="aspect-square rounded bg-red-200 px-2 py-1 text-xl font-bold text-red-900 transition-all duration-300 hover:bg-red-500
 					hover:text-white lg:hidden"
-					// onClick={() => setShowFilter(false)}
+					onClick={() => setShowFilter(false)}
 				>
 					<AiOutlineClose />
 				</button>
@@ -159,11 +145,15 @@ const SearchFilter = () => {
 										name="start-date"
 										id="startDate"
 										className="block h-[35px] rounded border-none bg-brand-50 px-1.5 shadow-md"
-										onChange={(e) => setStartDate(e.target.value)}
+										onChange={(e) => {
+											if (!e.target.value) {
+												searchParams.delete("startDate");
+												setSearchParams(searchParams);
+											}
+											setStartDate(e.target.value);
+										}}
+										defaultValue={startDate ?? undefined}
 									/>
-									<span className="absolute right-2 top-1/2 -translate-y-1/2 select-none lg:hidden">
-										<HiOutlineClock />
-									</span>
 								</div>
 							</div>
 							<div className="basis-1/2">
@@ -176,12 +166,15 @@ const SearchFilter = () => {
 										name="end-date"
 										id="endDate"
 										className="absolute inset-0 block h-[35px] rounded border-none bg-brand-50 px-1.5 shadow-md"
-										onChange={(e) => setEndDate(e.target.value)}
-										// defaultValue={endDate ? new Date(endDate).toISOString().split("T")[0] : undefined}
+										onChange={(e) => {
+											if (!e.target.value) {
+												searchParams.delete("endDate");
+												setSearchParams(searchParams);
+											}
+											setEndDate(e.target.value);
+										}}
+										defaultValue={endDate ?? undefined}
 									/>
-									<span className="absolute right-2 top-1/2 -translate-y-1/2 select-none lg:hidden">
-										<HiOutlineClock />
-									</span>
 								</div>
 							</div>
 						</div>

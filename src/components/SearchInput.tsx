@@ -32,7 +32,10 @@ const SearchInput = ({ headerSearch = false }: { headerSearch?: boolean }) => {
 
 	return (
 		<form
-			className={clsx("relative overflow-hidden rounded-md border-2", headerSearch ? "h-[35px] w-48 border-brandYellow" : "h-12 w-80 border-brandPink")}
+			className={clsx(
+				"relative overflow-hidden rounded-md border-2",
+				headerSearch ? "h-[35px] w-48 border-brandYellow" : "h-12 border-brandPink md:w-80",
+			)}
 			onSubmit={handleSearch}
 		>
 			<input
@@ -48,8 +51,8 @@ const SearchInput = ({ headerSearch = false }: { headerSearch?: boolean }) => {
 			/>
 			<button
 				className={clsx(
-					`absolute bottom-0 right-0 top-0 z-[1] flex aspect-square items-center justify-center rounded-r-md border-none bg-brandPink
-					text-xl text-white transition-all duration-300 hover:bg-brandPink/50 hover:text-white hover:shadow-md`,
+					`absolute bottom-0 right-0 top-0 z-[1] flex aspect-square items-center justify-center border-none bg-brandPink text-xl text-white
+					transition-all duration-300 hover:bg-brandPink/50 hover:text-white hover:shadow-md`,
 					headerSearch && "bg-brandYellow text-richBlack",
 				)}
 				aria-label="search"

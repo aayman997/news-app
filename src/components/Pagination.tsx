@@ -26,7 +26,7 @@ const Pagination = ({ pagination }: PaginationProps) => {
 				activePage={currentPage}
 				itemsCountPerPage={pageSize}
 				totalItemsCount={totalResults}
-				pageRangeDisplayed={5}
+				pageRangeDisplayed={3}
 				onChange={handlePageChange}
 				nextPageText={<AiOutlineRight />}
 				prevPageText={<AiOutlineLeft />}

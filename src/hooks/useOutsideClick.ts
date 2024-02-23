@@ -1,6 +1,7 @@
-import { useRef, useEffect, RefObject } from "react";
+import type { RefObject } from "react";
+import { useRef, useEffect } from "react";
 
-export const useOutsideClick = <T extends HTMLDivElement | HTMLUListElement>(handler?: () => void, listenCapturing = true): RefObject<T> => {
+const useOutsideClick = <T extends HTMLDivElement | HTMLUListElement>(handler?: () => void, listenCapturing = true): RefObject<T> => {
 	const ref = useRef<T>(null);
 
 	useEffect(() => {
@@ -15,3 +16,4 @@ export const useOutsideClick = <T extends HTMLDivElement | HTMLUListElement>(han
 	}, [handler, listenCapturing]);
 	return ref;
 };
+export default useOutsideClick;
