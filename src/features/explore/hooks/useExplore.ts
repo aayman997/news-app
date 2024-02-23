@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams, useSearchParams } from "react-router-dom";
-import apiNewsAPI from "../../../services/articles/apiNewsAPI.ts";
+import apiNewsAPI from "../../../services/articles/apiNewsAPI";
 
 const useExplore = () => {
 	const { category: categoryParam } = useParams();
@@ -15,7 +15,7 @@ const useExplore = () => {
 	});
 
 	if (data) {
-		if (+page < data?.pagination.totalPages) {
+		if (+page < data.pagination.totalPages) {
 			const nextPage = (+page + 1).toString();
 			queryClient.prefetchQuery({
 				queryKey: ["explore", nextPage, category],

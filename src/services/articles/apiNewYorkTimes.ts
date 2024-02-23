@@ -1,5 +1,5 @@
-import newYorkTimesDTO from "../../dto/newYorkTimesDTO.ts";
-import newYorkTimesMostViewedDTO from "../../dto/newYorkTimesMostViewedDTO.ts";
+import newYorkTimesDTO from "../../dto/newYorkTimesDTO";
+import newYorkTimesMostViewedDTO from "../../dto/newYorkTimesMostViewedDTO";
 import { ArticlesResType } from "../../types/ArticlesRes";
 
 export interface ArticlesRes extends Partial<ArticlesResType> {

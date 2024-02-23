@@ -1,7 +1,7 @@
 import { Source } from "../../types/Source";
-import apiNewsAPI from "./apiNewsAPI.ts";
-import apiNewYorkTimes from "./apiNewYorkTimes.ts";
-import apiTheGuardian from "./apiTheGuardian.ts";
+import apiNewsAPI from "./apiNewsAPI";
+import apiNewYorkTimes from "./apiNewYorkTimes";
+import apiTheGuardian from "./apiTheGuardian";
 
 interface ParamsDataType {
 	category: string[];

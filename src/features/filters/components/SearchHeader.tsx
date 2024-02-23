@@ -1,4 +1,4 @@
-import SearchInput from "./SearchInput.tsx";
+import SearchInput from "./SearchInput";
 
 const SearchHeader = () => {
 	return (

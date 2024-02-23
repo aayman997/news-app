@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
-import useExplore from "../features/explore/hooks/useExplore.ts";
-import ArticlesList from "../features/articles/components/ArticlesList.tsx";
+import useExplore from "../features/explore/hooks/useExplore";
+import ArticlesList from "../features/articles/components/ArticlesList";
 
 export default function Explore() {
 	const { category } = useParams();

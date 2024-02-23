@@ -1,4 +1,4 @@
-import theGuardianDTO from "../../dto/theGuardianDTO.ts";
+import theGuardianDTO from "../../dto/theGuardianDTO";
 import { ArticlesResType } from "../../types/ArticlesRes";
 
 interface ArticlesRes extends ArticlesResType {

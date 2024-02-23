@@ -1,8 +1,8 @@
-import PersonalizedFeed from "../features/personalization/components/PersonalizedFeed.tsx";
-import ArticlesList from "../features/articles/components/ArticlesList.tsx";
-import MostViewedArticles from "../features/articles/components/MostViewedArticles.tsx";
-import useArticles from "../features/articles/hooks/useArticles.ts";
-import usePersonalizeFeed from "../features/personalization/hooks/usePersonalizeFeed.ts";
+import PersonalizedFeed from "../features/personalization/components/PersonalizedFeed";
+import ArticlesList from "../features/articles/components/ArticlesList";
+import MostViewedArticles from "../features/articles/components/MostViewedArticles";
+import useArticles from "../features/articles/hooks/useArticles";
+import usePersonalizeFeed from "../features/personalization/hooks/usePersonalizeFeed";
 
 export default function Home() {
 	const { data: articlesFeed, isLoading, isError } = useArticles();

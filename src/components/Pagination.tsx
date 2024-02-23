@@ -1,8 +1,8 @@
-import type PaginationType from "../types/Pagination.d.ts";
+import type PaginationType from "../types/Pagination.d";
 import ReactJSPagination from "react-js-pagination";
 import { useSearchParams } from "react-router-dom";
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight, AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import updateSearchParamsField from "../utils/updateSearchParamsField.ts";
+import updateSearchParamsField from "../utils/updateSearchParamsField";
 
 interface PaginationProps {
 	pagination: PaginationType;

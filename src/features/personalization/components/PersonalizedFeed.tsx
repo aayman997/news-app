@@ -1,5 +1,5 @@
-import Modal from "../../../components/Modal.tsx";
-import FeedForm from "./FeedForm.tsx";
+import Modal from "../../../components/Modal";
+import FeedForm from "./FeedForm";
 
 export default function PersonalizedFeed() {
 	return (

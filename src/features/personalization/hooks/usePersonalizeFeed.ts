@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import getPersonalizeFeed from "../../../services/personalizeFeed/getPersonalizeFeed.ts";
+import getPersonalizeFeed from "../../../services/personalizeFeed/getPersonalizeFeed";
 import UserPreferences from "../../../types/UserPreferences";
 
 const usePersonalizeFeed = () => {

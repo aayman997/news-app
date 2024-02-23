@@ -1,4 +1,4 @@
-import { Article } from "../services/articles/Article.ts";
+import { Article } from "../services/articles/Article";
 import { ArticleNewApi } from "../types/articles/ArticleNewApi";
 
 const newsAPIDTO = (articles: ArticleNewApi[]) => {
@@ -17,7 +17,7 @@ const newsAPIDTO = (articles: ArticleNewApi[]) => {
 				author: article.author,
 				source: article?.source?.name,
 				image: article.urlToImage,
-			});
+			}).toJSON();
 		});
 };
 

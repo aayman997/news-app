@@ -1,5 +1,5 @@
-import newsAPIDTO from "../../dto/newsAPIDTO.ts";
-import PaginationType from "../../types/Pagination.ts";
+import newsAPIDTO from "../../dto/newsAPIDTO";
+import PaginationType from "../../types/Pagination";
 import { ArticlesResType } from "../../types/ArticlesRes";
 import { ArticleNewApi } from "../../types/articles/ArticleNewApi";
 

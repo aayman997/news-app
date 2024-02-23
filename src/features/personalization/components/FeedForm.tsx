@@ -1,9 +1,9 @@
-import useCreatePersonalizeFeed from "../hooks/useCreatePersonalizeFeed.ts";
+import useCreatePersonalizeFeed from "../hooks/useCreatePersonalizeFeed";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Source } from "../../../types/Source";
 import { Category } from "../../../types/Categories";
 import { SOURCES, CATEGORIES } from "../../../constants";
-import usePersonalizeFeed from "../hooks/usePersonalizeFeed.ts";
+import usePersonalizeFeed from "../hooks/usePersonalizeFeed";
 import { useEffect } from "react";
 
 interface FeedFormProps {

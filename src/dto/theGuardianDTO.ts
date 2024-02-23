@@ -1,4 +1,4 @@
-import { Article } from "../services/articles/Article.ts";
+import { Article } from "../services/articles/Article";
 import { ArticleTheGuardianApi } from "../types/articles/ArticleTheGuardianApi";
 
 const theGuardianDTO = (articles: ArticleTheGuardianApi[]) => {
@@ -15,7 +15,7 @@ const theGuardianDTO = (articles: ArticleTheGuardianApi[]) => {
 			author: article.fields.byline,
 			source: "theguardian.com",
 			image: article.fields.thumbnail,
-		});
+		}).toJSON();
 	});
 };
 

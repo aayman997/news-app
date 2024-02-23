@@ -1,11 +1,11 @@
 import { useSearchParams } from "react-router-dom";
 import { useState, ChangeEvent } from "react";
-import SearchHeader from "../components/SearchHeader.tsx";
-import SearchFilter from "../components/SearchFilter.tsx";
-import ArticlesList from "../features/articles/components/ArticlesList.tsx";
+import SearchHeader from "../features/filters/components/SearchHeader";
+import SearchFilter from "../features/filters/components/SearchFilter";
+import ArticlesList from "../features/articles/components/ArticlesList";
 import clsx from "clsx";
-import useFilterArticles from "../features/filters/hooks/useFilterArticles.ts";
-import updateSearchParamsField from "../utils/updateSearchParamsField.ts";
+import useFilterArticles from "../features/filters/hooks/useFilterArticles";
+import updateSearchParamsField from "../utils/updateSearchParamsField";
 
 const Search = () => {
 	const { data: articles, isError, isLoading } = useFilterArticles();

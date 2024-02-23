@@ -1,11 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
 import logo from "/new-app-logo.svg";
 import { CATEGORIES } from "../../constants";
-import SearchInput from "../SearchInput.tsx";
+import SearchInput from "../../features/filters/components/SearchInput";
 import { useState, useEffect } from "react";
 import clsx from "clsx";
 import { HiBars3 } from "react-icons/hi2";
-import useOutsideClick from "../../hooks/useOutsideClick.ts";
+import useOutsideClick from "../../hooks/useOutsideClick";
 
 export default function AppNavbar() {
 	const [showMenu, setShowMenu] = useState(false);

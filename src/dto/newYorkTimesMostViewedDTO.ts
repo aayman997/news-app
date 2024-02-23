@@ -1,4 +1,4 @@
-import { Article } from "../services/articles/Article.ts";
+import { Article } from "../services/articles/Article";
 import { ArticleNYTMostPopularApi } from "../types/articles/ArticleNYTMostPopularApi";
 
 const newYorkTimeToArticleDTO = (articles: ArticleNYTMostPopularApi[]) => {
@@ -18,10 +18,10 @@ const newYorkTimeToArticleDTO = (articles: ArticleNYTMostPopularApi[]) => {
 			abstract: article.abstract,
 			date: article.published_date,
 			url: article.url,
-			author: article.byline as string,
-			source: article.source as string,
+			author: article.byline,
+			source: article.source,
 			image: imageURL,
-		});
+		}).toJSON();
 	});
 };
 

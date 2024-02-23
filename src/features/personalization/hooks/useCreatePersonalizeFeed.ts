@@ -1,5 +1,5 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import createPersonalizeFeed from "../../../services/personalizeFeed/createPersonalizeFeed.ts";
+import createPersonalizeFeed from "../../../services/personalizeFeed/createPersonalizeFeed";
 import { Source } from "../../../types/Source";
 import { Category } from "../../../types/Categories";
 import toast from "react-hot-toast";

@@ -1,4 +1,4 @@
-import { Article } from "../services/articles/Article.ts";
+import { Article } from "../services/articles/Article";
 import { ArticleNYTSearchApi } from "../types/articles/ArticleNYTSearchApi";
 
 const newYorkTimesDTO = (articles: ArticleNYTSearchApi[]) => {
@@ -27,7 +27,7 @@ const newYorkTimesDTO = (articles: ArticleNYTSearchApi[]) => {
 			author: article.byline.original,
 			source: article.source,
 			image: imageURL,
-		});
+		}).toJSON();
 	});
 };
 

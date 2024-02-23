@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import apiTheGuardian, { ParamsData } from "../../../services/articles/apiTheGuardian.ts";
+import apiTheGuardian, { ParamsData } from "../../../services/articles/apiTheGuardian";
 import { useSearchParams } from "react-router-dom";
 
 const useFilterArticles = () => {

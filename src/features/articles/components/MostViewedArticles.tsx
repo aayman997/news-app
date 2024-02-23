@@ -1,5 +1,5 @@
-import useMostViewedArticles from "../hooks/useMostViewedArticles.ts";
-import ArticlesList from "./ArticlesList.tsx";
+import useMostViewedArticles from "../hooks/useMostViewedArticles";
+import ArticlesList from "./ArticlesList";
 
 export default function MostViewedArticles() {
 	const { data, isLoading, isError } = useMostViewedArticles();

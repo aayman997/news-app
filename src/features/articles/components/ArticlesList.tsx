@@ -1,12 +1,12 @@
-import Article from "./Article.tsx";
-import { ArticlesResType } from "../../../types/ArticlesRes";
+import Article from "./Article";
 import { BiLoaderCircle } from "react-icons/bi";
 import { HiExclamation } from "react-icons/hi";
-import Pagination from "../../../components/Pagination.tsx";
+import Pagination from "../../../components/Pagination";
+import PaginationType from "../../../types/Pagination";
 
 interface ArticlesListProps {
-	articles: ArticlesResType["articles"] | undefined;
-	pagination?: ArticlesResType["pagination"];
+	articles: ProcessedArticle[] | undefined;
+	pagination?: PaginationType;
 	isLoading?: boolean;
 	isError?: boolean;
 }

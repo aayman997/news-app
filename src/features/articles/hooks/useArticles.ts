@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import handleGetNews from "../../../services/articles/handleGetNews.ts";
-import { ArticlesRes } from "../../../services/articles/apiNewYorkTimes.ts";
+import handleGetNews from "../../../services/articles/handleGetNews";
+import { ArticlesRes } from "../../../services/articles/apiNewYorkTimes";
 import { ArticlesResType } from "../../../types/ArticlesRes";
 import UserPreferences from "../../../types/UserPreferences";
 

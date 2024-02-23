@@ -1,20 +1,15 @@
-import dateFormatter from "../../../utils/dateFormatter.ts";
-import { ArticlesResType } from "../../../types/ArticlesRes";
+import dateFormatter from "../../../utils/dateFormatter";
 
 interface ArticleProps {
-	article: ArticlesResType["articles"][0];
+	article: ProcessedArticle;
 }
 
 const Article = ({ article }: ArticleProps) => {
-	const { title, abstract, author, date, image, source } = article;
-	let authorName = "unknown";
+	const { title, abstract, date, image, source } = article;
+	let { author: authorName } = article;
 
-	if (author) {
-		if (author.length > 20) {
-			authorName = `${author.slice(0, 20)}...`;
-		} else {
-			authorName = author;
-		}
+	if (authorName.length > 20) {
+		authorName = `${authorName.slice(0, 20)}...`;
 	}
 
 	return (

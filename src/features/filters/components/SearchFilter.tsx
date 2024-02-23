@@ -1,9 +1,9 @@
 import { useState, ChangeEvent, useEffect, useCallback, Dispatch } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { AUTHORS } from "../constants";
+import { AUTHORS } from "../../../constants";
 import { useSearchParams } from "react-router-dom";
-import useOutsideClick from "../hooks/useOutsideClick.ts";
-import updateSearchParamsField from "../utils/updateSearchParamsField.ts";
+import useOutsideClick from "../../../hooks/useOutsideClick";
+import updateSearchParamsField from "../../../utils/updateSearchParamsField";
 
 const datesError = ({ startDate, endDate }: { startDate: string | null; endDate: string | null }): string | null => {
 	const now = new Date();

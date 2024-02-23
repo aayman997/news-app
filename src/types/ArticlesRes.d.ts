@@ -1,7 +1,6 @@
-import PaginationType from "./Pagination.d.ts";
-import { Article } from "../services/articles/Article.ts";
+import PaginationType from "./Pagination.d";
 
 export interface ArticlesResType {
-	articles: Article[];
+	articles: ProcessedArticle[];
 	pagination: PaginationType;
 }
