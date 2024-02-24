@@ -11,11 +11,11 @@ const Search = () => {
 	const { data: articles, isError, isLoading } = useFilterArticles();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [showFilter, setShowFilter] = useState(false);
-	const orderBy = searchParams.get("order-by") ?? "relevance";
+	const orderBy = searchParams.get("orderBy") ?? "relevance";
 
 	const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
 		const value = e.target.value;
-		setSearchParams((prevParams) => updateSearchParamsField("order-by", value, prevParams));
+		setSearchParams((prevParams) => updateSearchParamsField("orderBy", value, prevParams));
 	};
 
 	return (
@@ -53,7 +53,6 @@ const Search = () => {
 								>
 									<option value="relevance">Relevance</option>
 									<option value="newest">Newest</option>
-									<option value="oldest">Oldest</option>
 								</select>
 							</div>
 						</div>

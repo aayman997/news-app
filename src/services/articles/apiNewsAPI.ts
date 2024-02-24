@@ -16,8 +16,12 @@ interface ApiNewsAPIError {
 }
 
 type ApiNewsAPIParamsType = {
-	category: string;
+	q?: string;
+	category?: string;
 	page?: string;
+	from?: string;
+	to?: string;
+	sortBy?: string;
 };
 
 const PAGE_SIZE = 10;
@@ -27,26 +31,33 @@ const BASE_URL = import.meta.env.VITE_NEWSAPI_URL;
 const API_KEY = import.meta.env.VITE_NEWSAPI_API_KEY;
 
 const buildURL = (paramsData: ApiNewsAPIParamsType): string => {
-	let url;
 	const commonParams: { apiKey: string; pageSize: string; language: string } = {
 		apiKey: API_KEY,
 		pageSize: PAGE_SIZE.toString(),
 		language: "en",
 	};
-	let finalParams: typeof commonParams & Partial<ApiNewsAPIParamsType>;
 
-	if (paramsData.category) {
-		url = BASE_URL + "top-headlines?";
-		finalParams = { ...commonParams, ...paramsData };
-	} else {
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const buildSearchParams = () => {
 		const { category, ...restParamsData } = paramsData;
-		url = BASE_URL + "everything?";
-		finalParams = { ...commonParams, ...restParamsData };
-	}
-	const searchParams = new URLSearchParams(finalParams);
-	url = url + searchParams;
-	return url;
+		if (category && !restParamsData.q) {
+			return { ...commonParams, ...restParamsData, category };
+		} else {
+			let q = restParamsData.q ?? "";
+			if (category) {
+				q = `(${q} AND (${category.split("|").join(" OR ")}))`;
+			}
+			return {
+				...commonParams,
+				...restParamsData,
+				q,
+			};
+		}
+	};
+
+	const searchParams = new URLSearchParams(buildSearchParams());
+
+	const urlPath = paramsData.category && !paramsData.q ? "top-headlines?" : "everything?";
+	return BASE_URL + urlPath + searchParams;
 };
 
 const apiNewsAPI = async (paramsData: ApiNewsAPIParamsType): Promise<ArticlesResType> => {

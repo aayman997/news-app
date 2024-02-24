@@ -2,6 +2,7 @@ import { FormEvent } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { HiOutlineSearch } from "react-icons/hi";
 import clsx from "clsx";
+import toast from "react-hot-toast";
 
 const SearchInput = ({ headerSearch = false }: { headerSearch?: boolean }) => {
 	const navigate = useNavigate();
@@ -13,7 +14,8 @@ const SearchInput = ({ headerSearch = false }: { headerSearch?: boolean }) => {
 		if (searchElement) {
 			const input = searchElement as HTMLInputElement;
 			const query = input.value;
-			if (headerSearch && !query) {
+			if (!query) {
+				toast.error("Please write a keyword");
 				return;
 			}
 

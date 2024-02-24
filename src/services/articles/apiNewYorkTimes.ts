@@ -7,23 +7,18 @@ export interface ArticlesRes extends Partial<ArticlesResType> {
 }
 
 const createUrl = (paramsData: ParamsData): URL => {
-	const { mostViewed, query, page, sort, beginDate, endDate, category } = paramsData;
+	const { mostViewed, ...otherParams } = paramsData;
 
 	const BASE_URL = import.meta.env.VITE_NYTIMES_URL;
 	const params = {
 		"api-key": import.meta.env.VITE_NYTIMES_API_KEY,
-		...(beginDate && { begin_date: beginDate }),
-		...(endDate && { end_date: endDate }),
-		...(query && { q: query }),
-		...(page && { page: (+page - 1).toString() }),
-		...(category && { facet_fields: "section_name", fq: category }),
+		...otherParams,
 	};
 	const searchParams = new URLSearchParams(params);
 	let endpoint;
 	if (mostViewed) {
 		endpoint = BASE_URL + "svc/mostpopular/v2/viewed/7.json?" + searchParams.toString();
 	} else {
-		searchParams.set("sort", sort ?? "newest");
 		endpoint = BASE_URL + "svc/search/v2/articlesearch.json?" + searchParams.toString();
 	}
 	return new URL(endpoint);

@@ -5,18 +5,22 @@ import { useSearchParams } from "react-router-dom";
 import useOutsideClick from "../../../hooks/useOutsideClick";
 import updateSearchParamsField from "../../../utils/updateSearchParamsField";
 import { Source } from "../../../types/Source";
+import datesError from "../../../utils/validateDates.ts";
 
-const datesError = ({ startDate, endDate }: { startDate: string | null; endDate: string | null }): string | null => {
-	const now = new Date();
-	const start = new Date(startDate ?? "");
-	const end = new Date(endDate ?? "");
-	if (start > now || end > now) {
-		return "The dates must not be in the future.";
+const START_DATE = "startDate";
+const END_DATE = "endDate";
+
+const updateDatesInSearchParams = (startDateField: string | null, endDateField: string | null, previousParams: URLSearchParams) => {
+	if (startDateField && !endDateField) {
+		return updateSearchParamsField(START_DATE, startDateField, previousParams);
 	}
-	if (start > end) {
-		return "The start date must be before the end date.";
+
+	if (endDateField && !startDateField) {
+		return updateSearchParamsField(END_DATE, endDateField, previousParams);
 	}
-	return null;
+
+	const paramsWithEndDate = updateSearchParamsField(END_DATE, endDateField, previousParams);
+	return updateSearchParamsField(START_DATE, startDateField, paramsWithEndDate);
 };
 
 const SearchFilter = ({ setShowFilter }: { setShowFilter: Dispatch<boolean> }) => {
@@ -58,16 +62,20 @@ const SearchFilter = ({ setShowFilter }: { setShowFilter: Dispatch<boolean> }) =
 	}
 
 	const handleFilterChange = (field: string, { target: { type, value, checked } }: ChangeEvent<HTMLInputElement>) => {
-		setSearchParams((prevParams) => (checked ? updateParamsOnChecked(prevParams, field, type, value) : updateParamsOnUnchecked(prevParams, field, value)));
+		setSearchParams((prevParams) => {
+			if (field === "source") {
+				const queryValue = prevParams.get("query");
+				prevParams = new URLSearchParams();
+				if (queryValue) {
+					prevParams.set("query", queryValue);
+				}
+			}
+			return checked ? updateParamsOnChecked(prevParams, field, type, value) : updateParamsOnUnchecked(prevParams, field, value);
+		});
 	};
 
 	const handleDateFilter = () => {
-		if (startDate) {
-			setSearchParams((prevParams) => updateSearchParamsField("startDate", startDate, prevParams));
-		}
-		if (endDate) {
-			setSearchParams((prevParams) => updateSearchParamsField("endDate", endDate, prevParams));
-		}
+		setSearchParams((previousParams) => updateDatesInSearchParams(startDate, endDate, previousParams));
 	};
 
 	return (
@@ -120,7 +128,7 @@ const SearchFilter = ({ setShowFilter }: { setShowFilter: Dispatch<boolean> }) =
 							<div key={category} className="flex flex-row items-center justify-between gap-2">
 								<label htmlFor={category}>{category}</label>
 								<input
-									defaultChecked={Boolean(section.find((stgCategory: string) => stgCategory === category))}
+									checked={Boolean(section.find((stgCategory: string) => stgCategory === category))}
 									type="checkbox"
 									id={category}
 									name="category"

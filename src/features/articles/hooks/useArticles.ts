@@ -7,7 +7,7 @@ import UserPreferences from "../../../types/UserPreferences";
 const useArticles = () => {
 	const queryClient = useQueryClient();
 	const personalizedFeed = queryClient.getQueryData(["personalizedFeed"]) as UserPreferences;
-	console.log("personalizedFeed.categories", personalizedFeed);
+
 	const { isLoading, data, isError } = useQuery<ArticlesResType | ArticlesRes>({
 		queryKey: ["articles", personalizedFeed],
 		queryFn: () =>
