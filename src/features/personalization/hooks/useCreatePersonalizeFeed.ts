@@ -1,13 +1,12 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import createPersonalizeFeed from "../../../services/personalizeFeed/createPersonalizeFeed";
 import { Source } from "../../../types/Source";
-import { Category } from "../../../types/Categories";
 import toast from "react-hot-toast";
 
 const useCreatePersonalizeFeed = () => {
 	const queryClient = useQueryClient();
 	const { mutate: personalizeFeed } = useMutation({
-		mutationFn: ({ username, source, categories }: { username: string; source: Source; categories: Category[] }) =>
+		mutationFn: ({ username, source, categories }: { username: string; source: Source; categories: string[] }) =>
 			createPersonalizeFeed({
 				username,
 				source,

@@ -1,10 +1,9 @@
 import useCreatePersonalizeFeed from "../hooks/useCreatePersonalizeFeed";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Source } from "../../../types/Source";
-import { Category } from "../../../types/Categories";
-import { SOURCES, CATEGORIES } from "../../../constants";
+import { SOURCES } from "../../../constants";
 import usePersonalizeFeed from "../hooks/usePersonalizeFeed";
-import { useEffect } from "react";
+import { useState } from "react";
 
 interface FeedFormProps {
 	onCloseModal?: () => void;
@@ -13,31 +12,22 @@ interface FeedFormProps {
 interface CreateUserPreferences {
 	username: string;
 	source: Source;
-	categories: Category[];
+	categories: string[];
 }
 
 const FeedForm = ({ onCloseModal }: FeedFormProps) => {
 	const { personalizeFeed } = useCreatePersonalizeFeed();
 	const { personalizedFeed } = usePersonalizeFeed();
+	const [source, setSource] = useState<Source>(() => personalizedFeed?.source ?? "News API");
 
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
 		setValue,
-		watch,
 	} = useForm<CreateUserPreferences>();
 
-	const sourceWatch = watch("source");
-
-	useEffect(() => {
-		if (sourceWatch === "News API") {
-			setValue("categories", []);
-		}
-	}, [setValue, sourceWatch]);
-
 	const handler: SubmitHandler<CreateUserPreferences> = ({ username, source, categories }) => {
-		console.log("categories", categories);
 		personalizeFeed(
 			{ username, categories, source },
 			{
@@ -85,8 +75,12 @@ const FeedForm = ({ onCloseModal }: FeedFormProps) => {
 							},
 						})}
 						defaultValue={personalizedFeed?.source}
+						onChange={(e) => {
+							setValue("categories", []);
+							setSource(e.target.value as Source);
+						}}
 					>
-						{SOURCES.map((source) => (
+						{Object.keys(SOURCES).map((source) => (
 							<option value={source} key={source}>
 								{source}
 							</option>
@@ -96,22 +90,25 @@ const FeedForm = ({ onCloseModal }: FeedFormProps) => {
 				</div>
 				<div>
 					<p className="mb-2 text-center uppercase text-zinc-500">favorite categories</p>
-					{CATEGORIES.map((category) => (
+					{SOURCES[source].map((category) => (
 						<div key={category} className="flex flex-row items-center justify-between gap-2">
 							<label htmlFor={category}>{category}</label>
 							<input
 								{...register("categories", {
 									required: {
 										value: true,
-										message: "Please select at least one category",
+										message: source === "News API" ? "Please select a category" : "Please select at least one category",
 									},
 								})}
-								defaultChecked={Boolean(personalizedFeed?.categories?.find?.((stgCategory: string) => stgCategory === category))}
-								type="checkbox"
+								defaultChecked={
+									source === "News API"
+										? personalizedFeed?.categories === category
+										: Boolean((personalizedFeed?.categories as string[])?.find?.((stgCategory: string) => stgCategory === category))
+								}
+								type={source === "News API" ? "radio" : "checkbox"}
 								id={category}
 								value={category}
 								className="border-brand-300 bg-brand-100 text-brand-500 focus:ring-brand-200"
-								disabled={watch("source") === "News API" && watch("categories").length === 1 && category !== watch("categories")[0]}
 							/>
 						</div>
 					))}

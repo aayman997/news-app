@@ -1,10 +1,9 @@
-import { Category } from "../../types/Categories";
 import { Source } from "../../types/Source";
 
 interface CreatePersonalizeFeed {
 	username: string;
 	source: Source;
-	categories: Category[];
+	categories: string[];
 }
 
 const createPersonalizeFeed = async (data: CreatePersonalizeFeed) => {

@@ -1,9 +1,10 @@
 import { useState, ChangeEvent, useEffect, useCallback, Dispatch } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { AUTHORS } from "../../../constants";
+import { SOURCES } from "../../../constants";
 import { useSearchParams } from "react-router-dom";
 import useOutsideClick from "../../../hooks/useOutsideClick";
 import updateSearchParamsField from "../../../utils/updateSearchParamsField";
+import { Source } from "../../../types/Source";
 
 const datesError = ({ startDate, endDate }: { startDate: string | null; endDate: string | null }): string | null => {
 	const now = new Date();
@@ -21,8 +22,8 @@ const datesError = ({ startDate, endDate }: { startDate: string | null; endDate:
 const SearchFilter = ({ setShowFilter }: { setShowFilter: Dispatch<boolean> }) => {
 	const [dateError, setDateError] = useState<string | null>();
 	const [searchParams, setSearchParams] = useSearchParams();
-	const authors = searchParams?.get("authors")?.split("|") ?? [];
-	const section = searchParams?.get("section")?.split("|") ?? [];
+	const source = (searchParams.get("source") ?? "News API") as Source;
+	const section = searchParams.get("section")?.split("|") ?? [];
 	const [startDate, setStartDate] = useState(() => searchParams.get("startDate") ?? null);
 	const [endDate, setEndDate] = useState(() => searchParams.get("endDate") ?? null);
 	const filterRes = useOutsideClick<HTMLDivElement>(() => setShowFilter(false));
@@ -35,23 +36,29 @@ const SearchFilter = ({ setShowFilter }: { setShowFilter: Dispatch<boolean> }) =
 		handleDateChange();
 	}, [handleDateChange]);
 
-	const handleFilterChange = (field: string, e: ChangeEvent<HTMLInputElement>) => {
-		const value = e.target.value;
-		const checked = e.target.checked;
+	useEffect(() => {
+		if (!searchParams.get("source")) {
+			setSearchParams((prevParams) => updateSearchParamsField("source", Object.keys(SOURCES)[0], prevParams));
+		}
+	}, [searchParams, setSearchParams]);
 
-		setSearchParams((prevParams) => {
-			if (checked) {
-				const newParamsValue = prevParams.get(field) ? `${prevParams.get(field)}|${value}` : value;
-				return updateSearchParamsField(field, newParamsValue, prevParams);
-			} else {
-				const currentFieldValue = prevParams.get(field) ?? "";
-				const newFieldValue = currentFieldValue
-					.split("|")
-					.filter((fieldItem) => fieldItem !== value)
-					.join("|");
-				return updateSearchParamsField(field, newFieldValue !== "" ? newFieldValue : null, prevParams);
-			}
-		});
+	function updateParamsOnChecked(prevParams: URLSearchParams, field: string, type: string, value: string) {
+		const prevValue = prevParams.get(field);
+		const newParamsValue = prevValue ? `${prevValue}|${value}` : value;
+		return updateSearchParamsField(field, type === "radio" ? value : newParamsValue, prevParams);
+	}
+
+	function updateParamsOnUnchecked(prevParams: URLSearchParams, field: string, value: string) {
+		const currentFieldValue = prevParams.get(field) ?? "";
+		const newFieldValue = currentFieldValue
+			.split("|")
+			.filter((fieldItem) => fieldItem !== value)
+			.join("|");
+		return updateSearchParamsField(field, newFieldValue || null, prevParams);
+	}
+
+	const handleFilterChange = (field: string, { target: { type, value, checked } }: ChangeEvent<HTMLInputElement>) => {
+		setSearchParams((prevParams) => (checked ? updateParamsOnChecked(prevParams, field, type, value) : updateParamsOnUnchecked(prevParams, field, value)));
 	};
 
 	const handleDateFilter = () => {
@@ -81,21 +88,21 @@ const SearchFilter = ({ setShowFilter }: { setShowFilter: Dispatch<boolean> }) =
 						className="relative mb-2 flex items-center justify-between uppercase text-zinc-500 after:absolute after:left-0 after:top-[50%]
 						after:z-[0] after:h-[1px] after:w-full after:bg-brand-500 after:content-['']"
 					>
-						<span className="relative z-[1] bg-gray-100 pr-2 font-medium tracking-widest text-charcoal">authors</span>
+						<span className="relative z-[1] bg-gray-100 pr-2 font-medium tracking-widest text-charcoal">sources</span>
 					</p>
 					<div className="flex flex-col gap-4">
-						{AUTHORS.map((author) => (
-							<div key={author} className="flex flex-row items-center justify-between gap-2">
-								<label htmlFor={author}>{author}</label>
+						{Object.keys(SOURCES).map((sourceEl) => (
+							<div key={sourceEl} className="flex flex-row items-center justify-between gap-2">
+								<label htmlFor={sourceEl}>{sourceEl}</label>
 								<input
-									defaultChecked={Boolean(authors.find((stgAuthor: string) => stgAuthor === author))}
-									type="checkbox"
-									id={author}
-									name="authors"
-									value={author}
+									defaultChecked={sourceEl === source}
+									type="radio"
+									id={sourceEl}
+									name="source"
+									value={sourceEl}
 									className="border-brand-300 bg-brand-100 text-brand-500 focus:ring-brand-200 disabled:bg-brand-50
 									hover:disabled:bg-brand-50"
-									onChange={(e) => handleFilterChange("authors", e)}
+									onChange={(e) => handleFilterChange("source", e)}
 								/>
 							</div>
 						))}
@@ -109,7 +116,7 @@ const SearchFilter = ({ setShowFilter }: { setShowFilter: Dispatch<boolean> }) =
 						<span className="relative z-[1] bg-gray-100 pr-2 font-medium tracking-widest text-charcoal">Categories</span>
 					</p>
 					<div className="flex flex-col gap-4">
-						{["sport", "money", "science", "technology", "games", "food", "weather"].map((category) => (
+						{SOURCES[source].map((category) => (
 							<div key={category} className="flex flex-row items-center justify-between gap-2">
 								<label htmlFor={category}>{category}</label>
 								<input

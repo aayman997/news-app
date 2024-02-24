@@ -27,7 +27,7 @@ export class Article {
 		this.url = article.url;
 		this.author = article.author ?? "unknown";
 		this.source = article.source;
-		this.image = article.image ?? "https://placehold.co/600x400";
+		this.image = article.image ? article.image : "https://placehold.co/600x400";
 	}
 
 	toJSON(): ProcessedArticle {

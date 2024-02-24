@@ -6,7 +6,9 @@ export interface ArticlesRes extends Partial<ArticlesResType> {
 	orderBy?: string;
 }
 
-const createUrl = (mostViewed: boolean, query?: string, page?: string, sort?: string, beginDate?: string, endDate?: string): URL => {
+const createUrl = (paramsData: ParamsData): URL => {
+	const { mostViewed, query, page, sort, beginDate, endDate, category } = paramsData;
+
 	const BASE_URL = import.meta.env.VITE_NYTIMES_URL;
 	const params = {
 		"api-key": import.meta.env.VITE_NYTIMES_API_KEY,
@@ -14,20 +16,21 @@ const createUrl = (mostViewed: boolean, query?: string, page?: string, sort?: st
 		...(endDate && { end_date: endDate }),
 		...(query && { q: query }),
 		...(page && { page: (+page - 1).toString() }),
-		...(sort && { sort }),
+		...(category && { facet_fields: "section_name", fq: category }),
 	};
 	const searchParams = new URLSearchParams(params);
 	let endpoint;
 	if (mostViewed) {
 		endpoint = BASE_URL + "svc/mostpopular/v2/viewed/7.json?" + searchParams.toString();
 	} else {
+		searchParams.set("sort", sort ?? "newest");
 		endpoint = BASE_URL + "svc/search/v2/articlesearch.json?" + searchParams.toString();
 	}
 	return new URL(endpoint);
 };
 
 interface ParamsData {
-	mostViewed: boolean;
+	mostViewed?: boolean;
 	query?: string;
 	page?: string;
 	sort?: string;
@@ -36,8 +39,9 @@ interface ParamsData {
 	category?: string;
 }
 
-const apiNewYorkTimes = async ({ mostViewed, query, page, sort, beginDate, endDate }: ParamsData): Promise<ArticlesRes> => {
-	const url = createUrl(mostViewed, query, page, sort, beginDate, endDate);
+const apiNewYorkTimes = async (paramsData: ParamsData): Promise<ArticlesRes> => {
+	const { mostViewed } = paramsData;
+	const url = createUrl(paramsData);
 	const res = await fetch(url.toString());
 	const data = await res.json();
 	if (!res.ok) {
