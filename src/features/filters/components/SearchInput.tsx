@@ -48,7 +48,7 @@ const SearchInput = ({ headerSearch = false }: { headerSearch?: boolean }) => {
 				type="search"
 				name="search"
 				placeholder="type keyword"
-				defaultValue={query}
+				defaultValue={headerSearch ? undefined : query}
 			/>
 			<button
 				className={clsx(

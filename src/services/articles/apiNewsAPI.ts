@@ -15,7 +15,6 @@ interface ApiNewsAPIError {
 	status: string;
 }
 
-type ApiResponse = ApiNewsAPIData | ApiNewsAPIError;
 type ApiNewsAPIParamsType = {
 	category: string;
 	page?: string;
@@ -50,28 +49,27 @@ const buildURL = (paramsData: ApiNewsAPIParamsType): string => {
 	return url;
 };
 
-const isError = (data: ApiResponse): data is ApiNewsAPIError => data && (data as ApiNewsAPIError).code !== undefined;
-
 const apiNewsAPI = async (paramsData: ApiNewsAPIParamsType): Promise<ArticlesResType> => {
 	const url = buildURL(paramsData);
 	const res = await fetch(url);
-	const data: ApiResponse = await res.json();
 	if (!res.ok) {
-		if (isError(data) && data.code === "parameterInvalid") {
+		const errData: ApiNewsAPIError = await res.json();
+		if (errData.code === "parameterInvalid") {
 			return {
 				articles: [],
 				pagination: {} as PaginationType,
 			};
 		}
-		throw new Error(isError(data) ? data.message : "Error Loading data");
+		throw new Error(errData.message || "Error Loading data");
 	}
+	const data: ApiNewsAPIData = await res.json();
 	return {
-		articles: newsAPIDTO((data as ApiNewsAPIData).articles),
+		articles: newsAPIDTO(data.articles),
 		pagination: {
 			currentPage: Number(paramsData.page ?? 1),
 			pageSize: PAGE_SIZE,
-			totalPages: (data as ApiNewsAPIData).totalResults > 100 ? LAST_AVAILABLE_PAGES : Math.ceil((data as ApiNewsAPIData).totalResults / PAGE_SIZE),
-			totalResults: (data as ApiNewsAPIData).totalResults > 100 ? MAX_TOTAL_PAGES : (data as ApiNewsAPIData).totalResults,
+			totalPages: data.totalResults > 100 ? LAST_AVAILABLE_PAGES : Math.ceil(data.totalResults / PAGE_SIZE),
+			totalResults: data.totalResults > 100 ? MAX_TOTAL_PAGES : data.totalResults,
 		},
 	};
 };
