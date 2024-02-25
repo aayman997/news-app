@@ -2,6 +2,7 @@ import newsAPIDTO from "../../dto/newsAPIDTO";
 import PaginationType from "../../types/Pagination";
 import { ArticlesResType } from "../../types/ArticlesRes";
 import { ArticleNewApi } from "../../types/articles/ArticleNewApi";
+import { PAGE_SIZE, LAST_AVAILABLE_PAGES, MAX_TOTAL_PAGES } from "../../constants";
 
 interface ApiNewsAPIData {
 	status: string;
@@ -24,9 +25,6 @@ type ApiNewsAPIParamsType = {
 	sortBy?: string;
 };
 
-const PAGE_SIZE = 10;
-const LAST_AVAILABLE_PAGES = 10;
-const MAX_TOTAL_PAGES = PAGE_SIZE * LAST_AVAILABLE_PAGES;
 const BASE_URL = import.meta.env.VITE_NEWSAPI_URL;
 const API_KEY = import.meta.env.VITE_NEWSAPI_API_KEY;
 

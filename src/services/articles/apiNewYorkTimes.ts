@@ -1,6 +1,7 @@
 import newYorkTimesDTO from "../../dto/newYorkTimesDTO";
 import newYorkTimesMostViewedDTO from "../../dto/newYorkTimesMostViewedDTO";
 import { ArticlesResType } from "../../types/ArticlesRes";
+import { PAGE_SIZE } from "../../constants";
 
 export interface ArticlesRes extends Partial<ArticlesResType> {
 	orderBy?: string;
@@ -12,7 +13,7 @@ const createUrl = (paramsData: ParamsData): URL => {
 	const BASE_URL = import.meta.env.VITE_NYTIMES_URL;
 	const params = {
 		"api-key": import.meta.env.VITE_NYTIMES_API_KEY,
-		...otherParams,
+		...otherParams
 	};
 	const searchParams = new URLSearchParams(params);
 	let endpoint;
@@ -45,14 +46,15 @@ const apiNewYorkTimes = async (paramsData: ParamsData): Promise<ArticlesRes> => 
 	if (mostViewed) {
 		return { articles: newYorkTimesMostViewedDTO(data.results.slice(0, 5)) };
 	}
+	console.log("paramsData", paramsData);
 	return {
 		articles: newYorkTimesDTO(data.response.docs),
 		pagination: {
-			currentPage: Number(data.response.meta.offset),
+			currentPage: Number(data.response.meta.offset === 0 ? 1 : (data.response.meta.offset / PAGE_SIZE) + 1),
 			totalResults: Number(data.response.meta.hits),
 			pageSize: 10,
-			totalPages: Math.ceil(data.response.meta.hits / 10),
-		},
+			totalPages: Math.ceil(data.response.meta.hits / 10)
+		}
 	};
 };
 

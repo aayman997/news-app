@@ -12,7 +12,7 @@ const Search = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [showFilter, setShowFilter] = useState(false);
 	const orderBy = searchParams.get("orderBy") ?? "relevance";
-
+	console.log('articles',articles);
 	const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
 		const value = e.target.value;
 		setSearchParams((prevParams) => updateSearchParamsField("orderBy", value, prevParams));
