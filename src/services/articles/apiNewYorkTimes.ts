@@ -46,7 +46,7 @@ const apiNewYorkTimes = async (paramsData: ParamsData): Promise<ArticlesRes> => 
 	if (mostViewed) {
 		return { articles: newYorkTimesMostViewedDTO(data.results.slice(0, 5)) };
 	}
-	console.log("paramsData", paramsData);
+
 	return {
 		articles: newYorkTimesDTO(data.response.docs),
 		pagination: {
