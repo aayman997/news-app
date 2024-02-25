@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+.toast-notification {
+	background : #363636;
+	color      : #FFF;
+}
+
+
 .pagination {
 	@apply flex justify-center items-center gap-1;
 

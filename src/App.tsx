@@ -36,12 +36,8 @@ function App() {
 				reverseOrder={false}
 				gutter={8}
 				toastOptions={{
-					className: "",
+					className: "toast-notification",
 					duration: 5000,
-					style: {
-						background: "#363636",
-						color: "#FFF",
-					},
 					success: {
 						duration: 3000,
 					},
